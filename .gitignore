@@ -1,0 +1,13 @@
+# Arduino build caches
+*.hex
+*.elf
+*.bin
+build/
+
+# OS metadata and cache
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+# Office temporary lock files
+~$*
