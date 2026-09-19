@@ -23,46 +23,46 @@ Achieving precise speed and position control over highly non-linear electromecha
 
 ## System Architecture Diagram
 
-```mermaid
+mermaid
 flowchart LR
-    REF[Target Velocity Setpoint r_t] --> SUM((+ / -))
+    REF["Target Velocity Setpoint r_t"] --> SUM((+ / -))
     
     subgraph Controller Logic
-        SUM -->|Error e_t| PID[PID Compensator \nAnalog Op-Amp / Discrete C++]
+        SUM -->|Error e_t| PID["PID Compensator \nAnalog Op-Amp / Discrete C++"]
     end
     
-    PID -->|Control Signal u_t| PWM[Power Driver \nPWM H-Bridge]
-    PWM -->|Voltage V_t| PLANT[DC Motor Electromechanical Plant]
-    PLANT -->|Shaft Velocity ω_t| OUT[Output]
+    PID -->|Control Signal u_t| PWM["Power Driver \nPWM H-Bridge"]
+    PWM -->|Voltage V_t| PLANT["DC Motor Electromechanical Plant"]
+    PLANT -->|Shaft Velocity ω_t| OUT["Output"]
     
-    PLANT --> SENSOR[Incremental Rotary Encoder]
+    PLANT --> SENSOR["Incremental Rotary Encoder"]
     SENSOR -->|Interrupt Ticks y_t| SUM
-```
+
 
 ## Theoretical & Mathematical Models
 
 ### 1. DC Motor Electromechanical Plant Transfer Function
 The standard second-order linear model bridging the electrical time constants ($L/R$) and mechanical time constants ($J/b$) of a brushed DC motor is defined in the Laplace domain as:
-$$G(s) = \frac{\Omega(s)}{V(s)} = \frac{K_t}{(J s + b)(L s + R) + K_t K_e}$$
+$$G(s) = \frac{"\Omega(s)"}{V(s)} = \frac{"K_t"}{(J s + b)(L s + R) + K_t K_e}$$
 *(Where $J$ is rotor inertia, $b$ is viscous friction, $K_t$ is the torque constant, and $K_e$ is the back-EMF constant).*
 
 ### 2. Ideal Continuous PID Transfer Function
 The analog representation of the PID compensator operates continuously in time:
-$$C(s) = K_p + \frac{K_i}{s} + K_d s = \frac{K_d s^2 + K_p s + K_i}{s}$$
+$$C(s) = K_p + \frac{"K_i"}{s} + K_d s = \frac{"K_d s^2 + K_p s + K_i"}{s}$$
 
 ### 3. Discrete Velocity PID Formulation (Backward Euler)
 For the embedded microcontroller to execute the calculus, it must be discretized. Using a backward difference approximation at sampling interval $T_s$:
-$$u[k] = u[k-1] + K_p(e[k] - e[k-1]) + K_i T_s e[k] + \frac{K_d}{T_s}(e[k] - 2e[k-1] + e[k-2])$$
+$$u["k"] = u["k-1"] + K_p(e["k"] - e["k-1"]) + K_i T_s e["k"] + \frac{"K_d"}{T_s}(e["k"] - 2e["k-1"] + e["k-2"])$$
 
 ### 4. Quadrature Optical Encoder Angular Velocity Estimation
 Decoding a 2-channel quadrature signal utilizing $4\times$ decoding yields maximum resolution. The discrete angular velocity ($\omega$) in radians per second is:
-$$\omega = \frac{2\pi \cdot \Delta \text{ticks}}{4 \cdot \text{PPR} \cdot \Delta t} \quad [\text{rad/s}]$$
+$$\omega = \frac{"2\pi \cdot \Delta \text{ticks"}}{4 \cdot \text{"PPR"} \cdot \Delta t} \quad ["\text{"rad/s"}"]$$
 
 ### 5. Analog Op-Amp PID Circuit Equations
 In the analog architecture, the PID terms are synthesized physically using Operational Amplifiers:
-- **Proportional**: $V_p = -\frac{R_f}{R_{in}} V_e$
-- **Integral**: $V_i = -\frac{1}{R C} \int V_e dt$
-- **Derivative**: $V_d = -R C \frac{dV_e}{dt}$
+- **Proportional**: $V_p = -\frac{"R_f"}{R_{"in"}} V_e$
+- **Integral**: $V_i = -\frac{"1"}{R C} \int V_e dt$
+- **Derivative**: $V_d = -R C \frac{"dV_e"}{dt}$
 *(These three signals are then fed into a final inverting summing amplifier to generate the control voltage).*
 
 ## Engineering Trade-off Table: Analog vs. Digital PID
@@ -95,4 +95,4 @@ Mechatronics Engineer | Mechanical Design & CAD (SolidWorks & AutoCAD) | Prevent
 [GitHub](https://github.com/Hassan-Moqbel) · [Facebook](https://www.facebook.com/share/1BqxAgVjHi/) · [LinkedIn](https://www.linkedin.com/in/hassan-moqbel)
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the ["MIT License"](LICENSE).
