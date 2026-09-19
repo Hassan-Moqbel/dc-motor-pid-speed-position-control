@@ -19,7 +19,7 @@ Achieving precise speed and position control over highly non-linear electromecha
 - **Dual Implementation Comparison**: Side-by-side design and validation of a pure Analog Op-Amp PID architecture versus a Discrete Embedded PID architecture.
 - **Multi-Topology Rotary Encoder Decoding**: Real-time position tracking logic written for high-resolution Optical Encoders (E6B2-CWZ3E), Magnetic Hall-Effect Quadrature Encoders, and Single-channel optocouplers.
 - **Real-Time Interrupt-Driven Feedback**: Utilizes hardware interrupts (`attachInterrupt()`) for deterministic pulse counting, ensuring zero missed ticks at high RPMs.
-- **Dynamic Compensator Tuning**: Implements tunable parameters ($K_p$,$K_i$,$K_d$) to critically damp the step response and reject external load disturbances.
+- **Dynamic Compensator Tuning**: Implements tunable parameters ($K_p$, $K_i$, $K_d$) to critically damp the step response and reject external load disturbances.
 
 ## System Architecture Diagram
 
