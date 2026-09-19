@@ -19,7 +19,7 @@ Achieving precise speed and position control over highly non-linear electromecha
 - **Dual Implementation Comparison**: Side-by-side design and validation of a pure Analog Op-Amp PID architecture versus a Discrete Embedded PID architecture.
 - **Multi-Topology Rotary Encoder Decoding**: Real-time position tracking logic written for high-resolution Optical Encoders (E6B2-CWZ3E), Magnetic Hall-Effect Quadrature Encoders, and Single-channel optocouplers.
 - **Real-Time Interrupt-Driven Feedback**: Utilizes hardware interrupts (`attachInterrupt()`) for deterministic pulse counting, ensuring zero missed ticks at high RPMs.
-- **Dynamic Compensator Tuning**: Implements tunable parameters ($K_p$, $K_i$, $K_d$) to critically damp the step response and reject external load disturbances.
+- **Dynamic Compensator Tuning**: Implements tunable parameters ($K_p$,$K_i$,$K_d$) to critically damp the step response and reject external load disturbances.
 
 ## System Architecture Diagram
 
@@ -44,7 +44,7 @@ flowchart LR
 ### 1. DC Motor Electromechanical Plant Transfer Function
 The standard second-order linear model bridging the electrical time constants ($L/R$) and mechanical time constants ($J/b$) of a brushed DC motor is defined in the Laplace domain as:
 $$G(s) = \frac{\Omega(s)}{V(s)} = \frac{K_t}{(J s + b)(L s + R) + K_t K_e}$$
-*(Where $J$ is rotor inertia, $b$ is viscous friction, $K_t$ is the torque constant, and $K_e$ is the back-EMF constant).*
+*(Where $J$is rotor inertia,$b$is viscous friction,$K_t$is the torque constant, and$K_e$ is the back-EMF constant).*
 
 ### 2. Ideal Continuous PID Transfer Function
 The analog representation of the PID compensator operates continuously in time:
@@ -55,7 +55,7 @@ For the embedded microcontroller to execute the calculus, it must be discretized
 $$u[k] = u[k-1] + K_p(e[k] - e[k-1]) + K_i T_s e[k] + \frac{K_d}{T_s}(e[k] - 2e[k-1] + e[k-2])$$
 
 ### 4. Quadrature Optical Encoder Angular Velocity Estimation
-Decoding a 2-channel quadrature signal utilizing $4\times$ decoding yields maximum resolution. The discrete angular velocity ($\omega$) in radians per second is:
+Decoding a 2-channel quadrature signal utilizing $4\times$decoding yields maximum resolution. The discrete angular velocity ($\omega$) in radians per second is:
 $$\omega = \frac{2\pi \cdot \Delta \text{ticks}}{4 \cdot \text{PPR} \cdot \Delta t} \quad [\text{rad/s}]$$
 
 ### 5. Analog Op-Amp PID Circuit Equations
@@ -81,7 +81,7 @@ In the analog architecture, the PID terms are synthesized physically using Opera
 | **D3 (INT1)** | Encoder Phase B | Hardware interrupt for quadrature direction |
 | **D9 (PWM)** | H-Bridge ENA / ENB | Timer1 16-bit PWM output for velocity control |
 | **D7, D8** | H-Bridge IN1 / IN2 | Motor direction logic |
-| **A0 (ADC)** | Velocity Setpoint | 10k$\Omega$ Potentiometer mapping $0-1023$ |
+| **A0 (ADC)** | Velocity Setpoint | 10k$\Omega$Potentiometer mapping$0-1023$ |
 
 ## Authentic Artifacts Catalog
 - **Source Code**: [`src/embedded/`](src/embedded/) contains all Arduino C++ encoder and PID logic.
